@@ -1,12 +1,17 @@
 ---
 title: "Modelling cocoa bean fermentation"
 author: | 
-  | Mauricio Moreno-Zambrano
+  | Mauricio Moreno-Zambrano, Sergio Grimbs, Matthias S. Ullrich and Marc-Thorsten Hütt
   | Department of Life Sciences & Chemistry
   | Jacobs University Bremen
   | m.morenozambrano@jacobs-university.de
 date: "`r format(Sys.time(), '%Y-%m-%d')`"
 output: html_document
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 ---
 
 ```{r setup, include=FALSE}
@@ -440,7 +445,7 @@ The aforementioned model represents the first fully working kinetic model for co
 
 ## Acknowledgements
 
-I would like to express my deepest acknowledgments to my co-authors: Dr. Sergio Grimbs, Prof. Dr. Matthias S. Ullrich and Prof. Dr. Marc-Thorsten Hütt. Similarly, an important recognition to Barry Callebaut for funding this research as part of the [COMETA project](http://mullrich.user.jacobs-university.de/cocoa-metabolomics/), driven by Jacobs University Bremen. Finally, but not the least, a deep thank you to all the Stan Development team as well as the active community of the discussion group of Stan for helping me with my doubts.
+MM would like to express his deepest acknowledgments to his co-authors: Dr. Sergio Grimbs, Prof. Dr. Matthias S. Ullrich and Prof. Dr. Marc-Thorsten Hütt. Similarly, an important recognition to Barry Callebaut for funding this research as part of the [COMETA project](http://mullrich.user.jacobs-university.de/cocoa-metabolomics/), driven by Jacobs University Bremen. Finally, but not the least, a deep thank you to all the Stan Development team as well as the active community of the discussion group of Stan for helping me with my doubts.
 
 ## References
 
