@@ -415,7 +415,6 @@ knitr::include_graphics("figures/fig6.png")
 ```
 </center>
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 ### 4.2. Differences between parameters from Box 1 and Box 2
 
