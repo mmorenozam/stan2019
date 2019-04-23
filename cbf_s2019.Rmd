@@ -124,30 +124,30 @@ y9 = '$Y_{\\text{Ac}|\\text{LAB}}$'
 y10 = '$Y^{\\text{EtOH}}_{\\text{Ac}|\\text{AAB}}$'
 y11 = '$Y^{\\text{LA}}_{\\text{Ac}|\\text{AAB}}$'
 
-umu1 = '$\\text{mg Y . }\\text{h}^{-1}$'
-umu2 = '$\\text{mg Y . }\\text{h}^{-1}$'
-umu3 = '$\\text{mg LAB . }\\text{h}^{-1}$'
-umu4 = '$\\text{mg AAB . }\\text{h}^{-1}$'
-umu5 = '$\\text{mg AAB . }\\text{h}^{-1}$'
-uks1 = '$\\text{mg Glc . g pulp}^{-1}$'
-uks2 = '$\\text{mg Fru . g pulp}^{-1}$'
-uks3 = '$\\text{mg Glc . g pulp}^{-1}$'
-uks4 = '$\\text{mg EtOH . g pulp}^{-1}$'
-uks5 = '$\\text{mg LA . g pulp}^{-1}$'
-uk1 = '$\\text{mg Y . mg EtOH}^{-1}\\text{. h}^{-1}$'
-uk2 = '$\\text{mg LAB . mg LA}^{-1}\\text{. h}^{-1}$'
-uk3 = '$\\text{mg AAB . mg Ac}^{-2}\\text{. h}^{-1}$'
-uy1 = '$\\text{mg Glc . mg Y}^{-1}$'
-uy2 = '$\\text{mg Glc . mg LAB}^{-1}$'
-uy3 = '$\\text{mg Fru . mg Y}^{-1}$'
-uy4 = '$\\text{mg EtOH . mg Y}^{-1}$'
-uy5 = '$\\text{mg EtOH . mg Y}^{-1}$'
-uy6 = '$\\text{mg EtOH . mg AAB}^{-1}$'
-uy7 = '$\\text{mg LA . mg LAB}^{-1}$'
-uy8 = '$\\text{mg LA . mg AAB}^{-1}$'
-uy9 = '$\\text{mg Ac . mg LAB}^{-1}$'
-uy10 = '$\\text{mg Ac . mg AAB}^{-1}$'
-uy11 = '$\\text{mg Ac . mg AAB}^{-1}$'
+umu1 = '$\\text{mg Y  }\\text{h}^{-1}$'
+umu2 = '$\\text{mg Y  }\\text{h}^{-1}$'
+umu3 = '$\\text{mg LAB  }\\text{h}^{-1}$'
+umu4 = '$\\text{mg AAB  }\\text{h}^{-1}$'
+umu5 = '$\\text{mg AAB  }\\text{h}^{-1}$'
+uks1 = '$\\text{mg Glc  g pulp}^{-1}$'
+uks2 = '$\\text{mg Fru  g pulp}^{-1}$'
+uks3 = '$\\text{mg Glc  g pulp}^{-1}$'
+uks4 = '$\\text{mg EtOH  g pulp}^{-1}$'
+uks5 = '$\\text{mg LA  g pulp}^{-1}$'
+uk1 = '$\\text{mg Y  mg EtOH}^{-1}\\text{. h}^{-1}$'
+uk2 = '$\\text{mg LAB  mg LA}^{-1}\\text{. h}^{-1}$'
+uk3 = '$\\text{mg AAB  mg Ac}^{-2}\\text{. h}^{-1}$'
+uy1 = '$\\text{mg Glc  mg Y}^{-1}$'
+uy2 = '$\\text{mg Glc  mg LAB}^{-1}$'
+uy3 = '$\\text{mg Fru  mg Y}^{-1}$'
+uy4 = '$\\text{mg EtOH  mg Y}^{-1}$'
+uy5 = '$\\text{mg EtOH  mg Y}^{-1}$'
+uy6 = '$\\text{mg EtOH  mg AAB}^{-1}$'
+uy7 = '$\\text{mg LA  mg LAB}^{-1}$'
+uy8 = '$\\text{mg LA  mg AAB}^{-1}$'
+uy9 = '$\\text{mg Ac  mg LAB}^{-1}$'
+uy10 = '$\\text{mg Ac  mg AAB}^{-1}$'
+uy11 = '$\\text{mg Ac  mg AAB}^{-1}$'
 
 par = c(mu1,mu2,mu3,mu4,mu5,ks1,ks2,ks3,ks4,ks5,k1,k2,k3,y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11)
 
@@ -445,7 +445,7 @@ The aforementioned model represents the first fully working kinetic model for co
 
 ## Acknowledgements
 
-MM would like to express his deepest acknowledgments to his co-authors: Dr. Sergio Grimbs, Prof. Dr. Matthias S. Ullrich and Prof. Dr. Marc-Thorsten Hütt. Similarly, an important recognition to Barry Callebaut for funding this research as part of the [COMETA project](http://mullrich.user.jacobs-university.de/cocoa-metabolomics/), driven by Jacobs University Bremen. Finally, but not the least, a deep thank you to all the Stan Development team as well as the active community of the discussion group of Stan for helping me with my doubts.
+The authors would like to express their acknowledgement to Barry Callebaut for funding this research as part of the [COMETA project](http://mullrich.user.jacobs-university.de/cocoa-metabolomics/), driven by Jacobs University Bremen. Finally, but not the least, MM would like to give a deep thank you to all the Stan Development team as well as the active community of the discussion group of Stan for their help.
 
 ## References
 
