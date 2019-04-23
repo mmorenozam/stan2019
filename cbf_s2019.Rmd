@@ -410,7 +410,7 @@ By looking at the predictions, the model performs remarkably well for both, boxe
 knitr::include_graphics("figures/fig5.png")
 ```
 
-```{r , echo=FALSE, fig.cap="Figure 6. Predictions of the model for box 1 (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [3].", out.width = '90%'}
+```{r , echo=FALSE, fig.cap="Figure 6. Predictions of the model for box 2 (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [3].", out.width = '90%'}
 knitr::include_graphics("figures/fig6.png")
 ```
 </center>
