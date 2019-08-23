@@ -132,5 +132,13 @@ model{
 		xn[t]~normal(x_hat[t],sigma);
 }
 
+generated quantities{
+	real log_lik[T,8];
+	for (t in 1:T)
+		for (n in 1:8)
+			log_lik[t,n]=normal_lpdf(xn[t,n]|x_hat[t,n],sigma);
+}
+
+
 
 

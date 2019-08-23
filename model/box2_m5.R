@@ -1,11 +1,6 @@
-#Data and running script for Box 2
-#Mauricio Moreno-Zambrano
-#Department of Life Sciences & Chemistry
-#Jacobs University Bremen
-
 rm(list = ls())
 
-setwd('/home/mmorenozam/m5/box2')
+setwd('/home/mmorenozam/waic/box2/m5')
 
 library(rstan)
 
@@ -39,13 +34,13 @@ ini = function(){
 
 fit = stan("m5.stan",
             data=c("x0", "t0", "ts", "x", 'T','scl'),
-            control=list(adapt_delta=0.985,
+            control=list(adapt_delta=0.98,
                          stepsize=0.01,
                          max_treedepth=15),
             warmup = 1000,
             init = ini,
-			      refresh = 10,
+			      refresh = 25,
             cores = min(4, parallel::detectCores()),
             chains=4, iter=3000, seed=100785)
 
-save(fit, file="m5_b2.Rsave")
+save(fit, file="m5_w_b2.Rsave")
