@@ -23,6 +23,8 @@ library(latex2exp)
 library(ggsci)
 library(dplyr)
 library(tidyr)
+library(knitr)
+library(kableExtra)
 ```
 
 ## 1. Abstract
@@ -45,12 +47,33 @@ knitr::include_graphics("figures/fig1.png")
 
 ### 3.1. Experimental data
 
-The experimental data in this study were reported by Papalexandratou *et al.*[3] from two spontaneous fermentations trials conducted Brazil. Both trials were done by means of the *wooden boxes* fermentation method under slightly different conditions. In one instance, the trial known as 'box 1', was placed under a metal roof that provided protection from weather conditions. In the other, the trial known as 'box 2', was placed within a fermentary room.
+The experimental data in this study were reported by Papalexandratou *et al.*[3] and Camu *et al.* [4] from two spontaneous fermentations trials conducted in boxes in Brazil and one by the heap method in Ghana, respectively. Papalexandratou *et al.* trials were done by means of the *wooden boxes* fermentation method under slightly different conditions. In one instance, the trial known as 'box 1', was placed under a metal roof that provided protection from weather conditions. In the other, the trial known as 'box 2', was placed within a fermentary room.
 
-### 3.2. Mathematical formulation
 
-The basic interactions of the state variables can be summarized into the conversion of glucose (Glc) and fructose (Fru) into ethanol (EtOH) by Y, Glc into lactic acid (LA) by LAB and EtOH into acetic acid (Ac) by AAB. Considering other processes such as the conversion of Glc into Ac by LAB and LA into Ac by AAB, one might end up with a diagram of the whole process as:
+### 3.2. Setting the baseline
 
+By the qualitative description of the process, it is expected that the problem will become one of a coupled nature given the dependencies of all its dynamics on microbial growth. The basic interactions of the state variables can be summarized into the conversion of substrates (glucose (Glc) and fructose (Fru)) into ethanol (EtOH) by Y, Glc into lactic acid (LA) by LAB and EtOH into acetic acid (Ac) by AAB. These relationships can be defined by the use of equations that must take into account the substrate and product interactions. In the first case, several approximations have been developed, among them, the classical Monod and Contois models. For the later, we considered either the lack or precense of interactions between fermentation products and microbial growth by including linear and non-linear relationships upon the death rates responsible for the decrease on their population. Among these baseline decisions, four candidate models were assessed to fit the previously described data sets as shown in Table 1.
+
+```{r echo=FALSE}
+
+c1 <- c("M1","M2","M3","M4")
+c2 <- c('no','yes','yes','yes')
+c3 <- c('no','no','yes','yes')
+c4 <- c('no','no','no','yes')
+
+df = data.frame(cbind(c1,c2,c3,c4))
+colnames(df) <- c('Model','Multiple substrate','Product toxicity','Population size effect for LA consumption')
+kable(df,caption='Table 1. Summary of model`s iterations.')%>%kable_styling(full_width = F)
+```
+
+Where Model 1 considers as substrate a sum of Glc and Fru and the Population size effect for LA consumption refers to the use of the Contois equation for the consumption of LA by AAB.
+
+For a more detailed description of the conceptualization of the model, check the [supplementary material](https://royalsocietypublishing.org/doi/suppl/10.1098/rsos.180964) accompanying the original manuscript 
+<!-- Considering other processes such as the conversion of Glc into Ac by LAB and LA into Ac by AAB, one might end up with a diagram of the whole process as: -->
+
+### 3.3 Mathematical formulation
+Take for example model 4. Its mathematical formulation it is as follows.
+ 
 <center>
 
 ```{r , echo=FALSE, fig.cap="Figure 2. Network diagram of the cocoa bean fermentation process. Growth and death rates are expressed as $v_i$ [1].", out.width = '40%'}
@@ -59,7 +82,7 @@ knitr::include_graphics("figures/fig2.png")
 
 </center>
 
-In this way, the growth and death rates ($v_i$) of microbial populations is driving the wires of the network. For the definition of the these rates, we used Monod or Contois equations for the former, and second- and third-order reaction terms for the latter.
+The growth and death rates ($v_i$) of microbial populations are driving the wires of the network. For the definition of the these rates, we used Monod or Contois equations for the former, and second- and third-order reaction terms for the latter.
 
 Thus, growth rates are defined as:
 
@@ -97,8 +120,6 @@ $$\begin{align}
 A complete interpretation of these parameters is the following:
 
 ```{r echo=FALSE}
-library(knitr)
-library(kableExtra)
 mu1 = '$\\mu_\\text{max}^{\\text{Y}_\\text{Glc}}$'
 mu2 = '$\\mu_\\text{max}^{\\text{Y}_\\text{Fru}}$'
 mu3 = '$\\mu_\\text{max}^\\text{LAB}$'
@@ -168,10 +189,10 @@ inter <- c('Maximum specific growth rate of Y on Glc','Maximum specific growth r
 
 df = data.frame(cbind(par,upar,inter))
 colnames(df) <- c('Parameter','Units','Interpretation')
-kable(df,caption='Table 1. Interpretation of the parameters of the model [1].')%>%kable_styling(full_width = F)
+kable(df,caption='Table 2. Interpretation of the parameters for model 4 [1].')%>%kable_styling(full_width = F)
 ```
 
-### 3.3. Bayesian parameter estimation
+### 3.4. Bayesian parameter estimation
 
 The aforementioned parameters can be considered elements of a vector $\theta$ of the form $[\theta_1, \theta_2,\dots,\theta_k]$. By assuming that $\theta$ has originated the data $\mathcal{D}$, the parameter estimation problem can be solved by inferring the posterior probability of $\theta$ given $\mathcal{D}$, $P(\theta|\mathcal{D})$. This $P(\theta|\mathcal{D})$ can be expressed as the product over all series and each data point within time series as:
 
@@ -195,7 +216,7 @@ P\left(\theta\mid \mathcal{D}\right) \propto \prod_{i=1}^{T} \prod_{j=1}^{N} \ma
 
 where an extra parameter $\sigma$ is needed for accounting the total standard deviation of the model.
 
-#### 3.3.1. Dimensionality problem
+#### 3.4.1. Dimensionality problem
 
 Two problems arise when handling these data. On the one hand, the units in which microbial growth is measured constitutes the counting of Colony Forming Units (CFU). CFUs cannot be easily tossed in model with concentration measurements of metabolites (usually in milligrams per gram of pulp). For tackling this inconvenient, we make use of conversion factors from CFU to milligrams. These conversion factors were 15 picograms per CFU ($pg\,CFU^{-1}$), 1.25 $pg\,CFU^{-1}$ and 0.28 $pg\,CFU^{-1}$ for Y, LAB and AAB respectively (for a complete explanation of these conversion factors, see [1]). 
 
@@ -204,7 +225,7 @@ On the other hand, after the conversion of microbial counts into mass units, the
 From this point, the parameter estimation scheme is done over the scaled time series and once the posterior distribution of the parameters were obtained, these were subject to a re-scaling process to its real units through conversion factors derived mathematically from the ODE system (to see in further detail the re-scaling process, see [1]).
 
 
-#### 3.3.2. Priors
+#### 3.4.2. Priors
 
 By the scaling of the time series, we assumed that the differences of the parameters on their real scales that can be away in orders of magnitude, are then regularized. This means that priors for each single parameter can lie between 0 and 1. Thus, an independent normal distrubution with mean 0.5 and standard deviation equal to 0.3 can be impossed to each $k$ element of $\theta$. In the case of the standard deviation of the model $\sigma$, a heavy tailed distribution such a Cauchy with scale parameters of 0 and 1 will allow the sampling of extreme values that will cover possible outlying observations of the original data.
 
@@ -215,7 +236,7 @@ $$\begin{equation}
 \end{aligned}
 \end{equation}$$
 
-### 3.4. Stan code
+### 3.5. Stan code
 
 The aforementioned system of ODEs translated into Stan language is solved as an initial value problem, where the initial concentration of the 8 state variables are provided as they were reported in the original work of Papalexandratou *et al.* for boxes 1 and 2. In both cases, the ODEs were specified and solved by the mechanism *rk45*. The datasets were fitted by running 4 parallel Markov Chains of 3000 iterations each, 1000 of which were used as warm-up.
 
@@ -353,29 +374,76 @@ model{
 	for (t in 1:T)
 		xn[t]~normal(x_hat[t],sigma);
 }
+
+generated quantities{
+	real log_lik[T,8];
+	for (t in 1:T)
+		for (n in 1:8)
+			log_lik[t,n]=normal_lpdf(xn[t,n]|x_hat[t,n],sigma);
+}
+
 ```
 
 Both, Stan model and running scripts can be found in `model/`.
 
 ## 4. Results
-The results for both, box 1 and box 2 can be found in `output/`. The R scripts for re-producing the following results can be found in `scripts/`.
+The results for Camu *et al.*, box 1 and box 2 of Papalexandratou *et al.* can be found in `output/`. The R scripts for re-producing the following results can be found in `scripts/`.
 
-### 4.1. Diagnostics
-
-For both, box 1 and box 2, the traceplots did not show evidence of problems in the mixing of the chains.
+### 4.1. Model selection
+By conduction Leave-one-out cross-validation and widely applicable information criterion for the four models on all the data sets, the results suggest that models 3 and 4 have similar performances, at leas for the data corresponding to Camu and Box 2.
 
 <center>
 
-```{r , echo=FALSE, fig.cap="Figure 3. Traceplots of the scaled 24 parameters of the model for Box 1 (excluding sigma).", out.width = '100%'}
+```{r , echo=FALSE, fig.cap="Figure 3. LOO and WAIC for the models (a) Camu, (b) box 1 and (c) box 2", out.width = '100%'}
+knitr::include_graphics("figures/fig8.png")
+```
+</center>
+
+However, we decided to take model 4 as the most plausible one given that the maximum growth rate of AAB on EtOH for model 3 showed a bimodal distribution.
+
+
+<center>
+
+```{r , echo=FALSE, fig.cap="Figure 4. Posterior distribution of the maximum especific growth rate of AAB on EtOH for model 3", out.width = '20%'}
+knitr::include_graphics("figures/fig11.png")
+```
+</center>
+
+
+### 4.2. Diagnostics for model 4
+
+For Camu, box 1 and box 2, the traceplots did not show evidence of problems in the mixing of the chains.
+
+<center>
+
+```{r , echo=FALSE, fig.cap="Figure 5. Traceplots of the scaled 24 parameters of the model for Camu (excluding sigma).", out.width = '100%'}
+knitr::include_graphics("figures/fig9.png")
+```
+
+```{r , echo=FALSE, fig.cap="Figure 6. Traceplots of the scaled 24 parameters of the model for Box 1 (excluding sigma).", out.width = '100%'}
 knitr::include_graphics("figures/fig3.png")
 ```
 
-```{r , echo=FALSE, fig.cap="Figure 4. Traceplots of the scaled 24 parameters of the model for Box 2 (excluding sigma).", out.width = '100%'}
+```{r , echo=FALSE, fig.cap="Figure 7. Traceplots of the scaled 24 parameters of the model for Box 2 (excluding sigma).", out.width = '100%'}
 knitr::include_graphics("figures/fig4.png")
 ```
 </center>
 
-This is confirmed by the obtained $\hat{R}$ for Box 1:
+This is confirmed by the obtained $\hat{R}$ for Camu:
+
+```{r echo=FALSE}
+load('output/c_m5.Rsave')
+parm = c('mu1','mu2','mu3','mu4','mu5','ks1','ks2','ks3','ks4','ks5','k1','k2','k3',
+         'yc1','yc2','yc3','yc4','yc5','yc6','yc7','yc8','yc9','yc10','yc11','sigma')
+
+parameterTable <- function(fit, pars = names(fit)){#function taken from the talk of Charles Margossian, StanCon2017
+  rstan:::monitor(as.array(fit, pars = pars), warmup = 0, print = FALSE)}
+tab = parameterTable(fit,pars=parm)
+tab = round(tab,digits = 3)
+print(tab) 
+```
+
+Box 1:
 
 ```{r echo=FALSE}
 load('output/m5_b1.Rsave')
@@ -402,15 +470,22 @@ tab = parameterTable(fit,pars=parm)
 tab = round(tab,digits = 3)
 print(tab) 
 ```
-By looking at the predictions, the model performs remarkably well for both, boxes 1 and 2.
+By looking at the predictions, the model performs remarkably well for all data sets:
 
 <center>
 
-```{r , echo=FALSE, fig.cap="Figure 5. Predictions of the model for box 1 (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [3].", out.width = '90%'}
+```{r , echo=FALSE, fig.cap="Figure 8. Predictions of the model for Camu (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [4].", out.width = '90%'}
+knitr::include_graphics("figures/fig12.png")
+```
+
+
+<center>
+
+```{r , echo=FALSE, fig.cap="Figure 9. Predictions of the model for box 1 (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [3].", out.width = '90%'}
 knitr::include_graphics("figures/fig5.png")
 ```
 
-```{r , echo=FALSE, fig.cap="Figure 6. Predictions of the model for box 2 (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [3].", out.width = '90%'}
+```{r , echo=FALSE, fig.cap="Figure 10. Predictions of the model for box 2 (a) Glc, (b) Fru, (c) EtOH, (d) LA, (e) Ac, (f) Y, (g) LAB and (h) AAB. Solid red lines represent the median of the posterior distribution at each time point. Dashed red lines represent the 95% credible interval. Black dots represent the real data reported in [3].", out.width = '90%'}
 knitr::include_graphics("figures/fig6.png")
 ```
 </center>
@@ -422,7 +497,7 @@ At looking at the obtained posterior distributions from box 1 and 2 it is possib
 
 <center>
 
-```{r , echo=FALSE, fig.cap="Figure 7. Violin plots of the re-scaled posterior distributions of the 24 parameters showing the differences between boxes 1 and 2.", out.width = '95%'}
+```{r , echo=FALSE, fig.cap="Figure 11. Violin plots of the re-scaled posterior distributions of the 24 parameters showing the differences between boxes 1 and 2.", out.width = '95%'}
 knitr::include_graphics("figures/fig7.png")
 ```
 </center>
@@ -453,3 +528,5 @@ The authors would like to express their acknowledgement to Barry Callebaut for f
 [2] De Vuyst, L. and Weckx, S. (2016). The cocoa bean fermentation process: from ecosystem analysis to starter culture development. Journal of Applied Microbiology. 121, 5-17.
 
 [3] Papalexandratou, Z., Vrancken, G., Bruyne, K. D., Vandamme, P. and De Vuyst, L. (2011). Spontaneous organic cocoa bean fermentations in Brazil are characterized by a restricted species diversity of lactic acid bacteria and acetic acid bacteria. Food Microbiology. 28, 1326-1338.
+
+[4] Camu, N.,  De Winter, T., Verbrugghe, K., Cleenwerck, I., Vandamme, P., Takrama, J. S., Vancanneyt, M. and De Vuyst, L. (2007). Dynamics and biodiversity of populations of lactic acid bacteria and acetic acid bacteria involved in spontaneous heap fermentation of cocoa beans in Ghana. Applied and Environmental Microbiology. 74:6, 1809-1824.
